@@ -1,0 +1,117 @@
+"""Factory functions for creating LLM provider instances.
+
+Reads provider type and credentials from the global Settings object.
+"""
+
+from config.settings import settings
+
+from .base import ChatProvider, EmbeddingProvider
+
+
+def create_embedding_provider() -> EmbeddingProvider:
+    """Return an EmbeddingProvider based on current config.
+
+    Reads ``settings.embedding_provider`` to decide which implementation
+    to instantiate.  Valid values:
+
+    - ``local_bge``          — BGE-M3 (sentence-transformers)
+    - ``local_qwen3``        — Qwen3-Embedding-4B (transformers)
+    - ``openai``             — OpenAI Embedding API
+    - ``ollama``             — Local Ollama embedding model
+
+    Raises:
+        ValueError: If the configured provider is unknown.
+        ImportError: If the required SDK is not installed for the chosen provider.
+    """
+    provider_name = settings.embedding_provider
+
+    if provider_name == "local_bge":
+        from .providers.local_bge import BGEEmbedding
+
+        return BGEEmbedding(
+            model_name=settings.embedding_model or "BAAI/bge-m3",
+            cache_dir=settings.models_cache_dir or "./models",
+            device=None,
+        )
+
+    elif provider_name == "local_qwen3":
+        from .providers.local_qwen_embedding import Qwen3Embedding
+
+        return Qwen3Embedding(
+            model_path=settings.embedding_model or "./models/qwen3-embeding-4b",
+        )
+
+    elif provider_name == "openai":
+        from .providers.openai import OpenAIEmbedding
+
+        return OpenAIEmbedding(
+            api_key=settings.openai_api_key,
+            model=settings.embedding_model or "text-embedding-3-small",
+            base_url=settings.openai_base_url or None,
+        )
+
+    elif provider_name == "ollama":
+        from .providers.ollama import OllamaEmbedding
+
+        return OllamaEmbedding(
+            base_url=settings.ollama_base_url,
+            model=settings.embedding_model or "nomic-embed-text",
+        )
+
+    else:
+        raise ValueError(
+            f"Unknown embedding provider: {provider_name!r}. "
+            "Valid options: local_bge, local_qwen3, openai, ollama"
+        )
+
+
+def create_chat_provider() -> ChatProvider:
+    """Return a ChatProvider based on current config.
+
+    Reads ``settings.chat_provider`` to decide which implementation
+    to instantiate.  Valid values: ``api``, ``openai``, ``ollama``, ``local_llm``.
+
+    Raises:
+        ValueError: If the configured provider is unknown.
+        ImportError: If the required SDK is not installed for the chosen provider.
+    """
+    provider_name = settings.chat_provider
+
+    if provider_name == "api":
+        from .providers.openai import OpenAIChat
+
+        return OpenAIChat(
+            api_key=settings.chat_api_key,
+            model=settings.chat_model or "deepseek-v4-flash",
+            base_url=settings.chat_api_base_url or None,
+        )
+
+    elif provider_name == "openai":
+        from .providers.openai import OpenAIChat
+
+        return OpenAIChat(
+            api_key=settings.openai_api_key,
+            model=settings.chat_model or "gpt-4o-mini",
+            base_url=settings.openai_base_url or None,
+        )
+
+    elif provider_name == "ollama":
+        from .providers.ollama import OllamaChat
+
+        return OllamaChat(
+            base_url=settings.ollama_base_url,
+            model=settings.chat_model or "llama3",
+        )
+
+    elif provider_name == "local_llm":
+        from .providers.local_qwen import LocalQwenChat
+
+        return LocalQwenChat(
+            model_path=settings.local_llm_path,
+        )
+
+    else:
+        raise ValueError(
+            f"Unknown chat provider: {provider_name!r}. "
+            "Valid options: api, openai, ollama, local_llm"
+        )

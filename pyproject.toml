@@ -1,0 +1,52 @@
+[project]
+name = "qa-assistant"
+version = "0.1.0"
+description = "Intelligent QA system with crawl→clean→chunk→store pipeline"
+requires-python = ">=3.12"
+license = {text = "MIT"}
+
+dependencies = [
+    # 基础
+    "pydantic>=2.0",
+    "pydantic-settings>=2.0",
+    "httpx>=0.27",
+    "numpy>=1.24",
+    # 爬虫 & 页面解析
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
+    # 中文分词 & 检索
+    "jieba>=0.42",
+    "rank-bm25>=0.2",
+    # 向量数据库
+    "pymilvus>=3.0",
+    "milvus-lite",
+    # LLM（统一 OpenAI 兼容 API 格式）
+    "openai>=1.30",
+    # 文本分块
+    "langchain-text-splitters>=0.3",
+]
+
+[project.optional-dependencies]
+# 开发工具
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "libs/*/tests"]
+pythonpath = [
+    "libs/shared/src",
+    "libs/crawler/src",
+    "libs/cleaner/src",
+    "libs/storage/src",
+    "libs/llm/src",
+    "libs/pipeline/src",
+]

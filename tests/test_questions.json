@@ -1,0 +1,367 @@
+{
+  "description": "QA Assistant 可靠性与性能测试集 — 基于 cqaip.cn 平台内容",
+  "version": "2.0",
+  "created": "2026-07-02",
+  "questions": [
+    {
+      "id": "T01",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "重庆618电商大促AI工具使用情况怎么样",
+      "expected_keywords": ["数字人", "直播", "成本", "300元", "AI工具"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T02",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "长安汽车Robotaxi测试牌照的最新进展",
+      "expected_keywords": ["L4", "Robotaxi", "测试牌照", "长安", "天枢智能"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T03",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "宇树科技在重庆有什么新动态",
+      "expected_keywords": ["宇树科技", "具身智能", "大渡口", "西部创新运营中心"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T04",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "重庆市人工智能公共服务平台是什么时候启动的",
+      "expected_keywords": ["3月22日", "AI+制造", "启动", "重庆通用人工智能研究院"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T05",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "四川大学和乐聚机器人合作了什么项目",
+      "expected_keywords": ["具身智能", "联合实验室", "四川大学"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T06",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "璧山在具身智能方面有什么布局",
+      "expected_keywords": ["璧山", "具身智能", "产业"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T07",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "中国软件产业人才发展大会的主题是什么",
+      "expected_keywords": ["AI赋智促发展", "产教融合", "1000名"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T08",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "重庆首批智能发光防撞球有什么功能",
+      "expected_keywords": ["智能发光", "防撞球", "沙坪坝", "智慧展示"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T09",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "重庆腾讯可持续人工智能创新专项基金是什么时候启动的",
+      "expected_keywords": ["腾讯", "专项基金", "人工智能", "4月"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T10",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "画个圈就能识别身份是什么技术",
+      "expected_keywords": ["CircleID", "书写者身份识别", "亲笔签", "世界冠军"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "T11",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "掘金词元经济对重庆有什么机遇",
+      "expected_keywords": ["Token", "词元", "结算单位", "AI产业"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "T12",
+      "category": "policy",
+      "intent": "policy_faq",
+      "question": "满天星行动计划对大模型备案企业有什么奖励",
+      "expected_keywords": ["50万元", "奖励", "备案", "智能体"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T13",
+      "category": "policy",
+      "intent": "policy_faq",
+      "question": "重庆市算力券的补贴比例和上限是多少",
+      "expected_keywords": ["20%", "100万", "补贴", "算力券"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T14",
+      "category": "policy",
+      "intent": "policy_faq",
+      "question": "重庆推动人工智能+行动方案中2027年的目标是什么",
+      "expected_keywords": ["2027", "80%", "智能终端", "普及率"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T15",
+      "category": "policy",
+      "intent": "policy_faq",
+      "question": "新型智能产品最高能获得多少奖励",
+      "expected_keywords": ["200万元", "创新度", "市占率"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T16",
+      "category": "policy",
+      "intent": "document_lookup",
+      "question": "算力基础设施高质量发展行动计划是哪个部门发布的",
+      "expected_keywords": ["工业和信息化部", "六部门", "算力基础设施"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "T17",
+      "category": "policy",
+      "intent": "policy_faq",
+      "question": "重庆AI赋能城市治理行动计划的重点内容是什么",
+      "expected_keywords": ["城市治理", "人工智能", "数字重庆"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "T18",
+      "category": "competition",
+      "intent": "content_query",
+      "question": "满天星挑战赛什么时候举办",
+      "expected_keywords": ["6月27日", "创新创业创意", "重庆人工智能湾区"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T19",
+      "category": "competition",
+      "intent": "content_query",
+      "question": "数龙杯全球AI创新大赛有哪些赛道",
+      "expected_keywords": ["AI游戏", "AI应用", "AI智能体", "数龙杯"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T20",
+      "category": "competition",
+      "intent": "content_query",
+      "question": "2026数字中国创新大赛人工智能赛道包含哪些方向",
+      "expected_keywords": ["具身智能", "人工智能终端", "垂类大模型", "智能体"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T21",
+      "category": "platform",
+      "intent": "platform_info",
+      "question": "这个平台是做什么的",
+      "expected_keywords": ["人工智能", "公共服务平台", "模型", "算力", "数据"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T22",
+      "category": "platform",
+      "intent": "platform_info",
+      "question": "平台都能提供哪些服务",
+      "expected_keywords": ["模型", "算力", "数据", "应用"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T23",
+      "category": "compute",
+      "intent": "content_query",
+      "question": "平台提供哪些GPU型号可以选择",
+      "expected_keywords": ["A100", "V100", "T4", "GPU"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T24",
+      "category": "compute",
+      "intent": "how_to",
+      "question": "如何申请算力券来降低算力使用成本",
+      "expected_keywords": ["算力券", "20%", "补贴", "申领"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T25",
+      "category": "model",
+      "intent": "content_query",
+      "question": "平台模型广场有哪些大语言模型可以用",
+      "expected_keywords": ["DeepSeek", "glm", "qwen", "模型"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T26",
+      "category": "model",
+      "intent": "content_query",
+      "question": "qwen3.5-omni-plus模型支持哪些功能",
+      "expected_keywords": ["全模态", "文本", "音频", "语音", "多模态"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T27",
+      "category": "dataset",
+      "intent": "content_query",
+      "question": "数据集市场有哪些类型的训练数据",
+      "expected_keywords": ["图书", "论文", "对话", "语料", "数据集"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T28",
+      "category": "dataset",
+      "intent": "content_query",
+      "question": "有没有中文版权图书数据",
+      "expected_keywords": ["110万本", "PDF", "EPUB", "TXT", "版权"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T29",
+      "category": "marketplace",
+      "intent": "content_query",
+      "question": "供需市场上有哪些AI解决方案需求",
+      "expected_keywords": ["AI", "解决方案", "需求", "智能"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T30",
+      "category": "marketplace",
+      "intent": "content_query",
+      "question": "有没有AI制药相关的解决方案",
+      "expected_keywords": ["制药", "GMP", "全流程", "智能管理"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "T31",
+      "category": "cross_domain",
+      "intent": "content_query",
+      "question": "重庆人工智能产业目前有哪些重点发展方向",
+      "expected_keywords": ["具身智能", "AI+制造", "算力", "智能体"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "T32",
+      "category": "user_guide",
+      "intent": "how_to",
+      "question": "如何注册平台账号",
+      "expected_keywords": ["注册", "手机号", "邮箱", "验证码"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T33",
+      "category": "user_guide",
+      "intent": "how_to",
+      "question": "怎么充值算力账户",
+      "expected_keywords": ["充值", "支付宝", "微信", "银行转账"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T34",
+      "category": "user_guide",
+      "intent": "how_to",
+      "question": "如何申请API Key",
+      "expected_keywords": ["API Key", "申请", "密钥"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T35",
+      "category": "user_guide",
+      "intent": "how_to",
+      "question": "忘记密码了怎么办",
+      "expected_keywords": ["密码", "找回", "重置"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T36",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "破译千年楔形文字重庆诞生首个本科Kaggle大师",
+      "expected_keywords": ["Kaggle", "王世成", "重庆邮电大学", "金牌"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "T37",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "重庆柴院和重庆人工智能学院是什么项目",
+      "expected_keywords": ["柴可夫斯基音乐学院", "人工智能学院", "研究生"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T38",
+      "category": "industry_news",
+      "intent": "content_query",
+      "question": "人工智能驱动金融新质生产力的作用机制是什么",
+      "expected_keywords": ["机器学习", "自然语言处理", "金融", "新质生产力"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "T39",
+      "category": "policy",
+      "intent": "policy_faq",
+      "question": "哪些企业可以享受政策扶持",
+      "expected_keywords": ["企业", "条件", "扶持", "政策"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T40",
+      "category": "policy",
+      "intent": "policy_faq",
+      "question": "算力券的有效期是多久",
+      "expected_keywords": ["有效期", "1年", "发放"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "T41",
+      "category": "competition",
+      "intent": "content_query",
+      "question": "重庆工业博物馆AI创作设计大赛的主题是什么",
+      "expected_keywords": ["工业伙伴", "AI赋能", "钢铁之灵", "IP形象"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T42",
+      "category": "dataset",
+      "intent": "content_query",
+      "question": "多领域标签多轮对话数据有多少",
+      "expected_keywords": ["1亿组", "100大分类", "1250小分类", "多轮对话"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T43",
+      "category": "marketplace",
+      "intent": "content_query",
+      "question": "有没有白车身焊点质量智能诊断的解决方案",
+      "expected_keywords": ["焊点", "质量诊断", "根因追溯", "AI大模型"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "T44",
+      "category": "cross_domain",
+      "intent": "content_query",
+      "question": "我想训练一个大模型有什么资源可以用",
+      "expected_keywords": ["数据集", "算力", "GPU", "模型"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "T45",
+      "category": "cross_domain",
+      "intent": "content_query",
+      "question": "最近有什么可以参加的比赛",
+      "expected_keywords": ["比赛", "大赛", "竞赛", "报名"],
+      "difficulty": "easy"
+    }
+  ]
+}

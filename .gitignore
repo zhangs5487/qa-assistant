@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+
+# Environment
+.env
+
+# Data (git-ignored working directory)
+data/
+
+# Local models cache
+models/
+
+# Claude config
+.claude/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Generated reports / test outputs
+*_test_results.json
+benchmark_report.json
+dataset_titles.txt
+
+# Scrapy
+scrapy.cfg

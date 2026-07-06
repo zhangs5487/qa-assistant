@@ -129,7 +129,7 @@ class HybridSearcher:
         # Step 4: RAG fallback
         if not result["qa_hit"] and self.enable_rag:
             result["mode"] = "RAG"
-            chunks = self.retriever.search_chunks(question, use_rerank=False)
+            chunks = self.retriever.search_chunks(question, top_k=5, use_rerank=False)
             result["rag_chunks"] = chunks
             if chunks:
                 result["rag_answer"] = self.rag_generate(question, chunks)

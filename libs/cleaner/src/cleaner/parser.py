@@ -62,13 +62,19 @@ def _parse_policy(item: dict) -> CleanDocument:
     # Extract potential QA pair from the structured fields
     qa_pairs = []
     if title and (description or clean_content):
-        answer = description or clean_content[:500]
+        # Combine description + clean content for richer answer
+        parts = []
+        if description:
+            parts.append(description.strip())
+        if clean_content:
+            parts.append(clean_content[:800].strip())
         if amount:
-            answer = "%s\n%s" % (answer, amount)
+            parts.append("补贴/金额: %s" % amount)
+        answer = "\n\n".join(p for p in parts if p)
         qa_pairs.append(
             QAPair(
                 question=title,
-                answer=answer,
+                answer=answer[:1000],
                 source_url=source_url,
                 confidence=0.9,
             )
@@ -78,9 +84,19 @@ def _parse_policy(item: dict) -> CleanDocument:
         qa_pairs.append(
             QAPair(
                 question="%s - 申请条件" % title,
-                answer=apply_condition,
+                answer=apply_condition[:600],
                 source_url=source_url,
                 confidence=0.8,
+            )
+        )
+    # Amount standalone QA (if amount is a meaningful value)
+    if amount and amount.strip() and len(amount.strip()) > 5 and title:
+        qa_pairs.append(
+            QAPair(
+                question="%s - 补贴金额" % title,
+                answer=amount.strip(),
+                source_url=source_url,
+                confidence=0.75,
             )
         )
 
@@ -141,8 +157,31 @@ def _parse_competition(item: dict) -> CleanDocument:
     clean_content = _to_clean_text(content)
     full_text = (description + "\n\n" + clean_content).strip()
 
+    source_url = "/api/competitions"
+
+    qa_pairs = []
+    if title and description:
+        qa_pairs.append(
+            QAPair(
+                question=title,
+                answer=description[:500],
+                source_url=source_url,
+                confidence=0.85,
+            )
+        )
+    clean_content_stripped = clean_content.strip()
+    if title and clean_content_stripped and len(clean_content_stripped) > 100:
+        qa_pairs.append(
+            QAPair(
+                question="%s - 赛事详情" % title,
+                answer=clean_content_stripped[:1000],
+                source_url=source_url,
+                confidence=0.7,
+            )
+        )
+
     return CleanDocument(
-        source_url="/api/competitions",
+        source_url=source_url,
         original_title=title,
         clean_title=title,
         clean_content=full_text,
@@ -150,6 +189,7 @@ def _parse_competition(item: dict) -> CleanDocument:
         category="赛事活动",
         language="zh",
         source=DocumentSource.CQAIP_HTML,
+        extracted_qas=qa_pairs,
         processed_time=datetime.utcnow(),
         cleaning_meta={"source_name": "competitions", "raw_id": item.get("id")},
     )

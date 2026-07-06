@@ -14,10 +14,11 @@ import sys
 import os
 
 # Ensure packages are importable
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "libs", "crawler", "src"))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "libs", "cleaner", "src"))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "libs", "shared", "src"))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "config"))
+_BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.join(_BASE, "libs", "crawler", "src"))
+sys.path.insert(0, os.path.join(_BASE, "libs", "cleaner", "src"))
+sys.path.insert(0, os.path.join(_BASE, "libs", "shared", "src"))
+sys.path.insert(0, os.path.join(_BASE, "config"))
 
 
 def main():

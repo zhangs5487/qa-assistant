@@ -55,7 +55,7 @@ def _parse_policy(item: dict) -> CleanDocument:
     policy_id = item.get("id", "")
     source_url = item.get("sourceUrl") or ""
     if not source_url and policy_id:
-        source_url = "https://cqaip.cn/industry-news/" + policy_id
+        source_url = "https://cqaip.cn/policies/" + policy_id
     if not source_url:
         source_url = "/api/policies"
 
@@ -129,13 +129,13 @@ def _parse_industry_news(item: dict) -> CleanDocument:
             QAPair(
                 question=title,
                 answer=description,
-                source_url=item.get("sourceUrl") or "/api/industry-news",
+                source_url=item.get("sourceUrl") or "https://cqaip.cn/industry-news/" + item.get("id", ""),
                 confidence=0.7,
             )
         )
 
     return CleanDocument(
-        source_url=item.get("sourceUrl") or "/api/industry-news",
+        source_url=item.get("sourceUrl") or "https://cqaip.cn/industry-news/" + item.get("id", ""),
         original_title=title,
         clean_title=title,
         clean_content=full_text,
@@ -157,7 +157,7 @@ def _parse_competition(item: dict) -> CleanDocument:
     clean_content = _to_clean_text(content)
     full_text = (description + "\n\n" + clean_content).strip()
 
-    source_url = "/api/competitions"
+    source_url = "https://cqaip.cn/industry/competitions/" + item.get("id", "")
 
     qa_pairs = []
     if title and description:
@@ -218,7 +218,7 @@ def _parse_dataset(item: dict) -> CleanDocument:
     full_text = "\n".join(parts).strip()
 
     return CleanDocument(
-        source_url="/api/datasets",
+        source_url="https://cqaip.cn/datasets/" + str(item.get("id", "")),
         original_title=name,
         clean_title=name,
         clean_content=full_text,
@@ -237,7 +237,7 @@ def _parse_marketplace(item: dict) -> CleanDocument:
     full_text = (title + "\n" + description).strip() if title else description
 
     return CleanDocument(
-        source_url="/api/marketplace",
+        source_url="https://cqaip.cn/marketplace/" + str(item.get("id", "")),
         original_title=title,
         clean_title=title,
         clean_content=full_text,
@@ -264,7 +264,7 @@ def _parse_model(item: dict) -> CleanDocument:
     full_text = "\n".join(parts).strip()
 
     return CleanDocument(
-        source_url="/api/models",
+        source_url="https://cqaip.cn/models/" + str(item.get("id", "")),
         original_title=name,
         clean_title=name,
         clean_content=full_text,

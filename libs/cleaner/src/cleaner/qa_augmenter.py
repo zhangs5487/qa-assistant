@@ -22,25 +22,25 @@ HARDCODED_FAQ: list[QAPair] = [
     QAPair(
         question="什么样的企业可以申请入驻OPC社区？",
         answer="面向AI领域的初创企业、个体创业者、AI技术开发者和高校创业团队均可申请，无需特定营业额要求。",
-        source_url="/api/policies",
+        source_url="https://cqaip.cn/policies/",
         confidence=1.0,
     ),
     QAPair(
         question="政策补贴需要多久可以到账？",
         answer="一般情况下，审核通过后30个工作日内完成补贴发放，具体以政府部门公告为准。",
-        source_url="/api/policies",
+        source_url="https://cqaip.cn/policies/",
         confidence=1.0,
     ),
     QAPair(
         question="入驻后如何享受各项权益？",
         answer="完成企业认证后，可在平台上直接申请各类资源，社区主理人会全程辅助您完成权益兑换。",
-        source_url="/api/policies",
+        source_url="https://cqaip.cn/policies/",
         confidence=1.0,
     ),
     QAPair(
         question="算力和Token补贴可以叠加使用吗？",
         answer="各类补贴政策可以叠加享受，具体叠加规则请联系社区运营团队确认。",
-        source_url="/api/policies",
+        source_url="https://cqaip.cn/policies/",
         confidence=1.0,
     ),
 ]

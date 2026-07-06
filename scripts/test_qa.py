@@ -96,13 +96,17 @@ class HybridSearcher:
             qa_results = qa_fut.result()
         best_qa = qa_results[0] if qa_results else None
 
+        # Find max similarity across all results (reranker may reorder BM25-only to top)
+        max_sim = max((r.get("similarity", 0) for r in qa_results), default=0)
+        max_rerank = max((r.get("rerank_score", 0) for r in qa_results), default=0)
+
         result = {
             "question": question,
             "intent": intent,
             "intent_confidence": intent_conf,
             "mode": "QA",
             "qa_hit": False,
-            "qa_similarity": best_qa["similarity"] if best_qa else 0,
+            "qa_similarity": max(max_sim, max_rerank),
             "qa_question": best_qa["question"] if best_qa else "",
             "qa_answer": best_qa["answer"] if best_qa else "",
             "qa_source": best_qa.get("source", "") if best_qa else "",
@@ -167,12 +171,10 @@ class HybridSearcher:
                 lines.append("  匹配: %s" % result["qa_question"])
             lines.append("  " + "-" * 56)
             lines.append("  %s" % result["qa_answer"])
-            # Source link + policy PDF fallback
+            # Source link
             if result.get("qa_source"):
                 lines.append("")
                 lines.append("  [来源] %s" % result["qa_source"])
-                if result["qa_source"] == "/api/policies":
-                    lines.append("  [查看原文] https://cqaip.cn/policies")
         else:
             lines.append("  模式: RAG (QA最佳=%.4f)" % (result["qa_similarity"]))
             lines.append("  " + "-" * 56)

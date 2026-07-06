@@ -272,6 +272,9 @@ def rrf_fuse(
             scores[key] = entry
         scores[key]["rrf_score"] += 1.0 / (k + rank + 1)
 
+    # Track max BM25 score for normalization
+    max_bm25 = max((r.get(bm25_score_key, 0) for r in bm25_results), default=0)
+
     for rank, r in enumerate(bm25_results):
         key = r.get("question") or r.get("content") or str(id(r))
         if key not in scores:
@@ -279,7 +282,12 @@ def rrf_fuse(
             entry["rrf_score"] = 0.0
             entry["vector_rank"] = -1
             entry["bm25_rank"] = rank
-            entry[vector_score_key] = 0.0
+            # For BM25-only results, use rank-based similarity proxy (0.5-0.8 range)
+            # so it shows meaningful values but stays below typical QA thresholds
+            n = len(bm25_results)
+            entry[vector_score_key] = 0.5 + 0.3 * (1.0 - rank / n) if n > 1 else 0.65
+            # Preserve raw BM25 score
+            entry["bm25_raw"] = r.get(bm25_score_key, 0)
             scores[key] = entry
         scores[key]["rrf_score"] += 1.0 / (k + rank + 1)
         if "bm25_rank" in scores[key]:

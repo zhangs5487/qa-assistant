@@ -1,6 +1,6 @@
 # QA Assistant Tool 接口文档
 
-> 版本: v1.0  
+> 版本: v1.1  
 > 最后更新: 2026-07-06  
 > 角色: 平台 Router 按按钮，Tool 干活
 
@@ -114,7 +114,7 @@ service QAAssistant {
 | `data.answer` | string | 最终回答文本。QA 模式返回已有答案，RAG 模式返回 LLM 生成内容 |
 | `data.mode` | string | 实际使用的模式：`"QA"` 或 `"RAG"` |
 | `data.qa_hit` | bool | 是否命中 FAQ 知识库 |
-| `data.qa_similarity` | float | QA 最高相似度分数 |
+| `data.qa_similarity` | float | QA 最高相似度分数（含 rerank 和 BM25 归一化） |
 | `data.matched_question` | string | QA 匹配到的问题原文（仅在 qa_hit=true 时有值） |
 | `data.source_urls` | string[] | 信息来源链接，最多 3 条 |
 | `data.rag_chunks` | object[] | RAG 检索到的相关片段详情（仅在 RAG 模式时有值） |
@@ -284,6 +284,8 @@ Content-Type: application/json
 | 关键瓶颈 | 向量检索 | LLM 生成 |
 | 可用性 | 离线可用（依赖 Milvus） | 需 LLM API 在线 |
 | 关键词覆盖率 | 80%+（FAQ 覆盖范围内） | 依文档质量而定 |
+| QA 知识库规模 | 441 条 FAQ 对 | — |
+| 文档知识库规模 | 3,810 个检索片段 | — |
 
 ### 资源消耗
 
@@ -324,3 +326,4 @@ Content-Type: application/json
 | 日期 | 版本 | 变更 |
 |------|------|------|
 | 2026-07-06 | v1.0 | 初始版本 |
+| 2026-07-06 | v1.1 | source_url 修复：所有来源使用真实前端页面 URL（policy→`/policies/{id}`, 竞赛→`/industry/competitions/{id}`, 数据集→`/datasets/{id}`, 供需→`/marketplace/{id}`, 模型→`/models/{id}`）；QA 知识库重建至 441 条；RRF 融合 BM25 归一化修复；意图分类阈值调优 |

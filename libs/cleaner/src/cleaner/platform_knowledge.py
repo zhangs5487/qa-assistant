@@ -177,7 +177,7 @@ def generate_platform_qa_pairs() -> list[QAPair]:
                 qa_pairs.append(QAPair(
                     question=current_q,
                     answer=current_a.strip(),
-                    source_url="/api/generated",
+                    source_url="https://cqaip.cn",
                     confidence=0.7,
                 ))
             current_q = line[2:].strip()
@@ -196,7 +196,7 @@ def generate_platform_qa_pairs() -> list[QAPair]:
         qa_pairs.append(QAPair(
             question=current_q,
             answer=current_a.strip(),
-            source_url="/api/generated",
+            source_url="https://cqaip.cn",
             confidence=0.7,
         ))
 
@@ -245,10 +245,10 @@ def _generate_nav_qa_from_config() -> list[QAPair]:
         ]
         for t in texts:
             qa_pairs.append(QAPair(
-                question="平台有哪些功能？", answer=t, source_url="/api/site-config", confidence=1.0,
+                question="平台有哪些功能？", answer=t, source_url="https://cqaip.cn", confidence=1.0,
             ))
             qa_pairs.append(QAPair(
-                question="这个平台能做什么？", answer=t, source_url="/api/site-config", confidence=1.0,
+                question="这个平台能做什么？", answer=t, source_url="https://cqaip.cn", confidence=1.0,
             ))
 
     # Per-module QA
@@ -267,17 +267,17 @@ def _generate_nav_qa_from_config() -> list[QAPair]:
             qa_pairs.append(QAPair(
                 question="%s在哪里？" % label,
                 answer="在网站顶部导航栏找到【%s】，点击即可进入。\n直达链接：%s" % (label, url),
-                source_url="/api/site-config", confidence=1.0,
+                source_url="https://cqaip.cn", confidence=1.0,
             ))
             qa_pairs.append(QAPair(
                 question="怎么进入%s？" % label,
                 answer="方法：在顶部菜单栏点击【%s】。\n页面地址：%s" % (label, url),
-                source_url="/api/site-config", confidence=1.0,
+                source_url="https://cqaip.cn", confidence=1.0,
             ))
             qa_pairs.append(QAPair(
                 question="如何找到%s？" % label,
                 answer="顶部导航栏 → 点击【%s】即可访问。\n链接：%s" % (label, url),
-                source_url="/api/site-config", confidence=1.0,
+                source_url="https://cqaip.cn", confidence=1.0,
             ))
 
         # Questions about children
@@ -293,12 +293,12 @@ def _generate_nav_qa_from_config() -> list[QAPair]:
             qa_pairs.append(QAPair(
                 question="%s在哪里？" % clabel,
                 answer="在顶部导航栏找到【%s】→ 点击【%s】。\n直达链接：%s" % (label, clabel, chref_full),
-                source_url="/api/site-config", confidence=1.0,
+                source_url="https://cqaip.cn", confidence=1.0,
             ))
             qa_pairs.append(QAPair(
                 question="怎么找到%s？" % clabel,
                 answer="进入路径：顶部菜单【%s】> 【%s】。\n页面：%s" % (label, clabel, chref_full),
-                source_url="/api/site-config", confidence=1.0,
+                source_url="https://cqaip.cn", confidence=1.0,
             ))
 
     logger.info("Generated %d authoritative navigation QAs", len(qa_pairs))

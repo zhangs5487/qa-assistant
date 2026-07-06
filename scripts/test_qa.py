@@ -113,11 +113,11 @@ class HybridSearcher:
 
         # Step 3: Decide if QA hit (intent-aware threshold)
         threshold_map = {
-            "policy_faq": 0.82,
-            "how_to": 0.80,
-            "content_query": 0.75,
-            "document_lookup": 0.78,
-            "platform_info": 0.80,
+            "policy_faq": 0.85,
+            "how_to": 0.83,
+            "content_query": 0.80,
+            "document_lookup": 0.82,
+            "platform_info": 0.85,
             "general": self.match_threshold,
         }
         threshold = threshold_map.get(intent, self.match_threshold)
@@ -197,8 +197,8 @@ class HybridSearcher:
                     src = (c.get("source") or "").strip()
                     if not src or src in seen_urls:
                         continue
-                    # 过滤无意义的内部路径
-                    if src.startswith("/api/") or src in ("", "/", "#"):
+                    # 过滤无意义的内部路径（保留 /api/ 作为信息来源提示）
+                    if src in ("", "/", "#"):
                         continue
                     seen_urls.add(src)
                     source_urls.append(src)

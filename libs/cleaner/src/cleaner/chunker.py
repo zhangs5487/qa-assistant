@@ -88,7 +88,7 @@ class DocumentChunker:
                 metadata={
                     "title": doc.clean_title or "",
                     "category": doc.category or "",
-                    "source": doc.source.value,
+                    "source": doc.source_url,
                 },
             )
             chunks.append(chunk)

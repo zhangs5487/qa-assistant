@@ -308,6 +308,10 @@ class HybridRetriever:
 
     def __init__(self, use_rerank: bool = True, use_rerank_chunks: bool = False,
                  embedder=None):
+        # Respect config: if reranker_provider=none, force rerank off
+        if settings.reranker_provider == "none":
+            use_rerank = False
+            use_rerank_chunks = False
         self.vector_store = get_milvus_store()
         self.embedder = embedder or create_embedding_provider()
         self.bm25 = BM25Index()

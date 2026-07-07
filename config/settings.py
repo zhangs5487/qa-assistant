@@ -67,12 +67,12 @@ class Settings(BaseSettings):
     qa_match_threshold: float = 0.85  # Min similarity for QA direct match
 
     # ---- Embedding ----
-    embedding_provider: Literal["local_bge", "local_qwen3", "openai", "ollama"] = "local_bge"
-    embedding_model: str = "BAAI/bge-m3"     # local_bge → "BAAI/bge-m3"; API → model name
-    embedding_dimensions: int = 1024         # BGE-M3: 1024; embedding-2: 1024 (compatible)
+    embedding_provider: Literal["local_bge", "local_qwen3", "openai", "ollama", "api"] = "local_bge"
+    embedding_model: str = "BAAI/bge-m3"     # local → model path; api → model name (e.g. "text-embedding-3-small")
+    embedding_dimensions: int = 1024         # BGE-M3: 1024; embedding-2: 1024; text-embedding-3-small: 1536
 
     # ---- Reranker (cross-encoder re-ranking) ----
-    reranker_provider: str = "local_bge"  # "local_bge" or "none" to disable
+    reranker_provider: Literal["local_bge", "none"] = "local_bge"  # "none" to disable
     reranker_model: str = "./models/bge-reranker-v2-m3"
     reranker_top_k: int = 5       # Final number of results after re-ranking
     reranker_candidates: int = 15 # Number of candidates fed into the reranker

@@ -58,10 +58,24 @@ def create_embedding_provider() -> EmbeddingProvider:
             model=settings.embedding_model or "nomic-embed-text",
         )
 
+    elif provider_name == "api":
+        from .providers.openai import OpenAIEmbedding
+
+        if not settings.chat_api_key:
+            raise ValueError(
+                "EMBEDDING_PROVIDER=api 但 CHAT_API_KEY 未配置。"
+                "请在 .env 中设置 CHAT_API_KEY 和 CHAT_API_BASE_URL。"
+            )
+        return OpenAIEmbedding(
+            api_key=settings.chat_api_key,
+            model=settings.embedding_model or "text-embedding-3-small",
+            base_url=settings.chat_api_base_url or None,
+        )
+
     else:
         raise ValueError(
             f"Unknown embedding provider: {provider_name!r}. "
-            "Valid options: local_bge, local_qwen3, openai, ollama"
+            "Valid options: local_bge, local_qwen3, openai, ollama, api"
         )
 
 
@@ -80,6 +94,11 @@ def create_chat_provider() -> ChatProvider:
     if provider_name == "api":
         from .providers.openai import OpenAIChat
 
+        if not settings.chat_api_key:
+            raise ValueError(
+                "CHAT_PROVIDER=api 但 CHAT_API_KEY 未配置。"
+                "请在 .env 中设置 CHAT_API_KEY 和 CHAT_API_BASE_URL。"
+            )
         return OpenAIChat(
             api_key=settings.chat_api_key,
             model=settings.chat_model or "deepseek-v4-flash",

@@ -314,10 +314,10 @@ Content-Type: application/json
 | 变量 | 说明 | 默认值 |
 |------|------|--------|
 | `MILVUS_DB_PATH` | Milvus 连接路径（lite=本地文件, http://=服务器） | `./data/milvus.db` |
-| `EMBEDDING_PROVIDER` | 嵌入模型类型（local_bge/api/openai/ollama） | `local_bge` |
+| `EMBEDDING_PROVIDER` | 嵌入模型类型（local_bge/api/openai） | `local_bge` |
 | `EMBEDDING_MODEL` | 嵌入模型（本地=路径, API=模型名） | `./models/bge-m3` |
 | `RERANKER_PROVIDER` | 重排序类型（local_bge/none） | `local_bge` |
-| `CHAT_PROVIDER` | LLM 类型（api/openai/ollama/local_llm） | `api` |
+| `CHAT_PROVIDER` | LLM 类型（api/openai/local_llm） | `api` |
 | `CHAT_API_BASE_URL` | LLM API 地址 | `https://api.deepseek.com` |
 | `CHAT_MODEL` | LLM 模型名 | `deepseek-v4-flash` |
 | `QA_MATCH_THRESHOLD` | QA 匹配阈值 | `0.85` |

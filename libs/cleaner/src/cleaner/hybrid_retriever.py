@@ -290,10 +290,7 @@ def rrf_fuse(
             entry["bm25_raw"] = r.get(bm25_score_key, 0)
             scores[key] = entry
         scores[key]["rrf_score"] += 1.0 / (k + rank + 1)
-        if "bm25_rank" in scores[key]:
-            scores[key]["bm25_rank"] = rank
-        else:
-            scores[key]["bm25_rank"] = rank
+        scores[key]["bm25_rank"] = rank
 
     fused = sorted(scores.values(), key=lambda x: x["rrf_score"], reverse=True)
     return fused
@@ -343,27 +340,16 @@ class HybridRetriever:
         return self.embedder.embed_query(query)
 
     # ---- In-memory vector search (fallback for when Milvus is broken) ----
+    # TODO: implement proper in-memory cosine search with cached embeddings.
+    # Currently BM25-only fallback is sufficient since Milvus Lite is reliably
+    # co-located on the same machine.
 
     def _mem_search_qa(self, query_emb: list[float], top_k: int) -> list[dict]:
-        """Cosine similarity search against BM25-indexed QA texts in memory."""
-        if not self.bm25.qa_texts:
-            return []
-        q = np.array(query_emb, dtype=np.float32)
-        qn = np.linalg.norm(q)
-        if qn == 0:
-            return []
-        results = []
-        for i, text in enumerate(self.bm25.qa_texts):
-            if i >= len(self.bm25.qa_metadata):
-                break
-            # We don't have cached embeddings, so use BM25 scores as proxy
-            continue
+        """(not yet implemented)"""
         return []
 
     def _mem_search_chunks(self, query_emb: list[float], top_k: int) -> list[dict]:
-        """Cosine similarity search against chunk texts in memory."""
-        if not self.bm25.chunk_texts:
-            return []
+        """(not yet implemented)"""
         return []
 
     # ---- Milvus search with fallback ----
@@ -433,8 +419,8 @@ class HybridRetriever:
         if rerank_enabled and fused:
             reranker = self._get_reranker()
             if reranker:
-                rerank_candidates = min(settings.reranker_candidates, len(fused))
-                return reranker.rerank(query, fused, top_k=top_k)
+                n_candidates = min(settings.reranker_candidates, len(fused))
+                return reranker.rerank(query, fused[:n_candidates], top_k=top_k)
 
         return fused[:top_k]
 
@@ -472,7 +458,7 @@ class HybridRetriever:
         if rerank_enabled and fused:
             reranker = self._get_reranker()
             if reranker:
-                rerank_candidates = min(settings.reranker_candidates, len(fused))
-                return reranker.rerank(query, fused, top_k=top_k)
+                n_candidates = min(settings.reranker_candidates, len(fused))
+                return reranker.rerank(query, fused[:n_candidates], top_k=top_k)
 
         return fused[:top_k]

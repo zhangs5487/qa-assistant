@@ -17,7 +17,7 @@ def create_embedding_provider() -> EmbeddingProvider:
     - ``local_bge``          — BGE-M3 (sentence-transformers)
     - ``local_qwen3``        — Qwen3-Embedding-4B (transformers)
     - ``openai``             — OpenAI Embedding API
-    - ``ollama``             — Local Ollama embedding model
+    - ``api``                — OpenAI-compatible API (uses chat credentials)
 
     Raises:
         ValueError: If the configured provider is unknown.
@@ -50,14 +50,6 @@ def create_embedding_provider() -> EmbeddingProvider:
             base_url=settings.openai_base_url or None,
         )
 
-    elif provider_name == "ollama":
-        from .providers.ollama import OllamaEmbedding
-
-        return OllamaEmbedding(
-            base_url=settings.ollama_base_url,
-            model=settings.embedding_model or "nomic-embed-text",
-        )
-
     elif provider_name == "api":
         from .providers.openai import OpenAIEmbedding
 
@@ -75,7 +67,7 @@ def create_embedding_provider() -> EmbeddingProvider:
     else:
         raise ValueError(
             f"Unknown embedding provider: {provider_name!r}. "
-            "Valid options: local_bge, local_qwen3, openai, ollama, api"
+            "Valid options: local_bge, local_qwen3, openai, api"
         )
 
 
@@ -83,7 +75,7 @@ def create_chat_provider() -> ChatProvider:
     """Return a ChatProvider based on current config.
 
     Reads ``settings.chat_provider`` to decide which implementation
-    to instantiate.  Valid values: ``api``, ``openai``, ``ollama``, ``local_llm``.
+    to instantiate.  Valid values: ``api``, ``openai``, ``local_llm``.
 
     Raises:
         ValueError: If the configured provider is unknown.
@@ -114,14 +106,6 @@ def create_chat_provider() -> ChatProvider:
             base_url=settings.openai_base_url or None,
         )
 
-    elif provider_name == "ollama":
-        from .providers.ollama import OllamaChat
-
-        return OllamaChat(
-            base_url=settings.ollama_base_url,
-            model=settings.chat_model or "llama3",
-        )
-
     elif provider_name == "local_llm":
         from .providers.local_qwen import LocalQwenChat
 
@@ -132,5 +116,5 @@ def create_chat_provider() -> ChatProvider:
     else:
         raise ValueError(
             f"Unknown chat provider: {provider_name!r}. "
-            "Valid options: api, openai, ollama, local_llm"
+            "Valid options: api, openai, local_llm"
         )

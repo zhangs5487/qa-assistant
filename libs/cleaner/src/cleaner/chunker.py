@@ -83,7 +83,7 @@ class DocumentChunker:
                 document_url=doc.source_url,
                 chunk_index=i,
                 content=text,
-                token_count=len(text),  # rough char-based estimate
+                token_count=len(text) * 2 // 3,  # ~1.5 Chinese chars per token
                 overlap_with_prev=i > 0,
                 metadata={
                     "title": doc.clean_title or "",

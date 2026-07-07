@@ -114,7 +114,7 @@ User question -> Embed
 ### LLM Abstraction (Ready)
 - `EmbeddingProvider` / `ChatProvider` ABCs in `libs/llm/base.py`
 - Factory in `libs/llm/factory.py`: reads config, instantiates correct provider
-- Providers: `openai.py`, `ollama.py`, `local_qwen.py` + `local_bge.py` (for BGE-M3)
+- Providers: `openai.py`, `local_qwen.py`, `local_bge.py` (for BGE-M3) + `local_qwen_embedding.py`
 - **Rule**: no code outside `libs/llm/` imports a provider SDK directly
 
 ## Configuration

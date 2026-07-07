@@ -42,7 +42,11 @@ def _load_site_config() -> dict:
 def _extract_platform_description(config: dict) -> dict:
     """Extract key platform facts from site config."""
     nav_raw = config.get("nav_menus", "")
-    menus = json.loads(nav_raw) if isinstance(nav_raw, str) else nav_raw
+    try:
+        menus = json.loads(nav_raw) if isinstance(nav_raw, str) else nav_raw
+    except json.JSONDecodeError:
+        logger.warning("Failed to parse nav_menus JSON")
+        menus = []
 
     # Collect all visible pages
     pages = []

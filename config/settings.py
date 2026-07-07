@@ -67,7 +67,7 @@ class Settings(BaseSettings):
     qa_match_threshold: float = 0.85  # Min similarity for QA direct match
 
     # ---- Embedding ----
-    embedding_provider: Literal["local_bge", "local_qwen3", "openai", "ollama", "api"] = "local_bge"
+    embedding_provider: Literal["local_bge", "local_qwen3", "openai", "api"] = "local_bge"
     embedding_model: str = "BAAI/bge-m3"     # local → model path; api → model name (e.g. "text-embedding-3-small")
     embedding_dimensions: int = 1024         # BGE-M3: 1024; embedding-2: 1024; text-embedding-3-small: 1536
 
@@ -80,8 +80,8 @@ class Settings(BaseSettings):
     # ---- LLM / Chat (for RAG generation & QA augmentation) ----
     # 通用 API 模式: provider=api, 搭配 api_base_url + api_key + chat_model
     # 本地模式: provider=local_llm, 搭配 local_llm_path
-    # 保留兼容: openai, ollama
-    chat_provider: Literal["api", "openai", "ollama", "local_llm"] = "api"
+    # 保留兼容: openai
+    chat_provider: Literal["api", "openai", "local_llm"] = "api"
     chat_model: str = "deepseek-v4-flash"
     # 通用 API (OpenAI 兼容格式)
     chat_api_key: str = ""
@@ -91,7 +91,6 @@ class Settings(BaseSettings):
     # API keys (loaded from .env — never commit)
     openai_api_key: str = ""
     openai_base_url: str = ""  # For proxies / Azure / compatible endpoints
-    ollama_base_url: str = "http://localhost:11434"
 
     # ---- QA Augmentation ----
     qa_augmentation_enabled: bool = True

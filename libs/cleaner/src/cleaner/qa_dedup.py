@@ -97,6 +97,8 @@ def deduplicate_qa_pairs(
     # Greedy clustering: for each pair, merge if above threshold
     keep_indices: list[int] = []
     merged_indices: set[int] = set()
+    # Work on a mutable copy to avoid side-effects on caller's QAPair objects
+    qa_pairs = [QAPair(**q.model_dump()) for q in qa_pairs]
 
     for i in range(len(qa_pairs)):
         if i in merged_indices:

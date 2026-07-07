@@ -285,8 +285,9 @@ def batch_mode(searcher, file_path):
     total = len(questions)
     resolved = qa_hits + rag_ok
     print("\n  QA:%d  RAG:%d  MISS:%d  解决率:%.0f%%" % (qa_hits, rag_ok, total - resolved, resolved / total * 100))
-    json.dump({"threshold": searcher.match_threshold, "total": total, "qa_hits": qa_hits,
-               "rag_answered": rag_ok}, open("qa_test_results.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    with open("qa_test_results.json", "w", encoding="utf-8") as f:
+        json.dump({"threshold": searcher.match_threshold, "total": total, "qa_hits": qa_hits,
+                   "rag_answered": rag_ok}, f, ensure_ascii=False, indent=2)
 
 
 # ---- Main ----

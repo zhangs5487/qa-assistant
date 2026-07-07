@@ -11,10 +11,13 @@ Usage:
 """
 
 import json
+import logging
 import os
 import sys
 import time
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "libs", "shared", "src"))
@@ -28,25 +31,27 @@ from llm.factory import create_embedding_provider
 from storage.milvus_store import CHUNK_COLLECTION, QA_COLLECTION, get_milvus_store
 
 
-def embed_batch(texts: list[str], label: str) -> list[list[float]]:
+def embed_batch(texts: list[str], label: str, embedder=None) -> list[list[float]]:
     print("  Embedding %s (%d items)..." % (label, len(texts)), end=" ", flush=True)
     t0 = time.time()
-    embedder = create_embedding_provider()
+    embedder = embedder or create_embedding_provider()
     embeddings = []
     batch_size = 20
+    dim = settings.embedding_dimensions
     for i in range(0, len(texts), batch_size):
         batch = texts[i : i + batch_size]
         try:
             embs = embedder.embed_documents(batch)
             embeddings.extend(embs)
         except Exception as e:
+            logger.warning("Embedding batch %d failed: %s", i, e)
             for _ in batch:
-                embeddings.append([0.0] * 1024)
+                embeddings.append([0.0] * dim)
     print("[OK] %dms" % ((time.time() - t0) * 1000))
     return embeddings
 
 
-def build_faq_knowledge_base(store):
+def build_faq_knowledge_base(store, embedder=None):
     qa_file = Path(settings.clean_data_dir) / "qa_deduped" / "deduped_qa_pairs.json"
     if not qa_file.exists():
         print("[FAIL] QA file not found: %s" % qa_file)
@@ -65,12 +70,12 @@ def build_faq_knowledge_base(store):
     sources = [q.get("source_url", q.get("source", "")) for q in qa_pairs]
     confidences = [q.get("confidence", 0.5) for q in qa_pairs]
 
-    embeddings = embed_batch(questions, "QA questions")
+    embeddings = embed_batch(questions, "QA questions", embedder=embedder)
     store.build_qa(questions, answers, sources, confidences, embeddings)
     print("  [OK] FAQ knowledge base ready")
 
 
-def build_document_knowledge_base(store):
+def build_document_knowledge_base(store, embedder=None):
     chunk_dir = Path(settings.clean_data_dir) / "chunks"
     if not chunk_dir.exists():
         print("[FAIL] Chunks dir not found: %s" % chunk_dir)
@@ -104,7 +109,7 @@ def build_document_knowledge_base(store):
     if not all_contents:
         return
 
-    embeddings = embed_batch(all_contents, "document chunks")
+    embeddings = embed_batch(all_contents, "document chunks", embedder=embedder)
     store.build_chunks(all_contents, all_titles, all_sources, all_categories, embeddings)
     print("  [OK] Document knowledge base ready")
 
@@ -126,13 +131,16 @@ def main():
     t0 = time.time()
     store = get_milvus_store()
 
+    # Share a single embedder instance across both collections to avoid double loading
+    embedder = create_embedding_provider() if (not args.docs_only or not args.qa_only) else None
+
     do_qa = not args.docs_only
     do_docs = not args.qa_only
 
     if do_qa:
-        build_faq_knowledge_base(store)
+        build_faq_knowledge_base(store, embedder=embedder)
     if do_docs:
-        build_document_knowledge_base(store)
+        build_document_knowledge_base(store, embedder=embedder)
 
     stats = store.stats()
     print("\n" + "=" * 60)

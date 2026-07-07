@@ -126,8 +126,7 @@ class HybridSearcher:
         }
         threshold = threshold_map.get(intent, self.match_threshold)
 
-        if best_qa and best_qa["similarity"] >= threshold:
-            qa_ok = True
+        if best_qa and result["qa_similarity"] >= threshold:
             result["qa_hit"] = True
 
         # Step 4: RAG fallback
@@ -254,7 +253,7 @@ def interactive_mode(searcher):
                 print("  Re-rank: %s" % ("ON" if searcher.use_rerank else "OFF"))
             continue
         if query.lower() == "stats":
-            st = searcher.store.stats()
+            st = searcher.retriever.vector_store.stats()
             for n, s in st.items():
                 print("  %s: %s" % (n, s))
             continue
@@ -305,7 +304,7 @@ def main():
     if args.rebuild:
         from cleaner.qa_processor import run_full_qa_pipeline
         run_full_qa_pipeline()
-        exec(open(Path(__file__).parent / "build_knowledge_base.py").read())
+        subprocess.run([sys.executable, str(Path(__file__).parent / "build_knowledge_base.py")], check=True)
 
     searcher = HybridSearcher(
         match_threshold=args.threshold,

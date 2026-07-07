@@ -198,7 +198,8 @@ class IntentClassifier:
                         for exemplar_emb in emb_list:
                             e_norm = np.linalg.norm(exemplar_emb)
                             if e_norm > 0:
-                                sim = float(np.dot(query_emb, exemplar_emb) / (q_norm * e_norm))
+                                # query_emb already normalized above; only divide by e_norm
+                                sim = float(np.dot(query_emb, exemplar_emb) / e_norm)
                                 if sim > best_sim:
                                     best_sim = sim
                                     best_intent = intent
